@@ -14,7 +14,7 @@ A mathematician wants a tool that supports the examination of Apollonian gaskets
 
 An Apollonian gasket is a fractal pattern constructed as follows:
 
-1. Draw three circles, each of which is tangent to the other two (i.e., intersects at a single point), at three distinct points. One of these circles should contain the other two in its interior. For example:
+1. Draw three circles, each of which is tangent to the other two (i.e., intersects at a single point) such that there are three distinct points at which two circles meet. One of these circles should contain the other two in its interior. For example:
    <img src="first3.png" alt="The first three circles in the Apollonian gasket construction." style="zoom:67%;" />
    We can think of this step as forming the root of a tree *t*.
 2. There are now two regions bounded by these three circles. We can think of these regions as children of the root of *t*. For each node in *t* other than the root, we add a circle tangent to the three circles bounding the region. Each circle added in this way forms three new regions, which form three children of the region containing the circle that was added. For example, adding a circle to the region on the right yields the following:
@@ -62,17 +62,17 @@ Note that if *a*, *b*, *c*, and *d*<sub>1</sub> are all integers, then *d*<sub>2
 
 ## 2. User Requirements
 
-The user needs a tool to draw an Apollonian gasket given the curvature of the external circle and the integer curvatures of the first two circles tangent to it and to each other, provided the curvatures of all circles in the gasket are integers. It does *not* need to be able to display gaskets in which some or all of the circles have non-integer curvature. The drawing should not include circles too small to appear as circles, but it should include all other circles. Centered within each circle other than the external circle, the curvature of that circle should be displayed, provided the circle is large enough to display the curvature legibly. The curvature of the external circle also must be displayed within the GUI.
+The user needs a tool to draw an Apollonian gasket given the integer curvature of the external circle and the integer curvatures of the first two circles tangent to it and to each other, provided the curvatures of all circles in the gasket are integers. It does *not* need to be able to display gaskets in which some or all of the circles have non-integer curvature. The drawing should not include circles too small to appear as circles, but it should include all other circles. Centered within each circle other than the external circle, the curvature of that circle should be displayed, provided the circle is large enough to display the curvature legibly. The curvature of the external circle also must be displayed within the GUI.
 
 The tool should allow the user to zoom to a maximum magnification factor of 64. Each zoom level should double magnification factor of the previous level. Zooming to a higher magnification should reveal more detail; i.e., circles that were too small to be shown at lower magnifications should become visible when they become large enough, and text that would not fit legibly at lower magnifications should be included when the containing circles become large enough. The current zoom level should be indicated within the GUI. When the drawing becomes too large to fit into the GUI, it should be possible to pan the drawing to reveal different parts of it. 
 
 ## 3. Starting the Assignment
 
-Create a GitHub repository using the URL provided on the Canvas assignment page, and clone it to your local machine. This repository contains a new Windows Forms App and a unit test project. You will need to provide all of the code, including the user interface.
+Create a GitHub repository using the URL provided on the Canvas assignment page, and clone it to your local machine. This repository contains a new Windows Forms App and a unit test project. You will need to provide all of the code, including the user interface. Note that there are syntax errors in the unit test project - these should go away when you have correctly completed the coding requirements - see [8. Coding Requirements](#8. Coding Requirements).
 
 ## 4. User Interface
 
-The [demo video]() demonstrates the desired look and feel of the program. Here, we first describe the design of the two forms that you will need to create through the Design window. Then we will describe the intended behavior of the program.
+The [demo video](https://youtu.be/cpwvYbNSLVc?si=5ejxQef-tmJrjxEn) demonstrates the desired look and feel of the program. Here, we first describe the design of the two forms that you will need to create through the Design window. Then we will describe the intended behavior of the program.
 
 **Important:** Do the GUI design before writing any code. One step of the GUI design will require you to compile your program, and if you have syntax errors, you won't be able to do this. Furthermore, some errors in your code might prevent the Design window from displaying.
 
@@ -90,7 +90,7 @@ Below the **ToolStrip** is a **FlowLayoutPanel**. This panel will hold the drawi
 
 The last component you will need for this form is a control to display the drawing. You will need to build this control. Right-click on the project name (in boldface) in the Solution Explorer and select "Add -> User Control (Windows Forms)...". In the resulting dialog, enter "Gasket.cs" (without the quotation marks) into the "Name:" **TextBox**, and click the "Add" button. This will open a new Design window containing a gray rectangle, which represents the control. Set the following properties for this control:
 
-- **DoubleBuffered**: **True**. This facilitates smoother scrolling by making all updates to a second off-screen copy of the display.
+- **DoubleBuffered**: **True**. This facilitates smoother scrolling by making all updates to a second off-screen copy of the control.
 - **Enabled**: **False**. The user doesn't need to interact with this control, and if it's enabled, it interferes with scrolling.
 
 The remainder of the implementation of this control will be done by coding, as outlined in [8.3. The Gasket Class](#8.3. The Gasket Class).
@@ -123,15 +123,15 @@ Closing this dialog by clicking the "X" in the upper-right corner should cause t
 
 If the curvatures selected by the user result in integer curvatures for all circles in the resulting gasket, this gasket should be displayed in the window as outlined in [2. User Requirements](#2. User Requirements) and described in more detail below. Furthermore, the "Zoom In" button should be enabled, the curvature of the external circle should be shown in the textbox displaying the external curvature, and "0" should be shown in the textbox displaying the zoom level. For example, if the user had selected curvatures of  -1, 2, and 2, the GUI should resemble the following:
 
-!["The GUI displaying an Apollonian gasket."](gui-showing-gasket.png)
+<img src="gui-showing-gasket.png" alt="&quot;The GUI displaying an Apollonian gasket.&quot;" style="zoom:67%;" />
 
-The gasket should initially be shown with its top edge at the top of the window (just below the **ToolStrip**) and its left edge at the left of the window. Its size should be 500 pixels by 500 pixels. The curvature shown within each internal circle should be displayed using an italic serif font, scaled so that the with of the drawn text is 70% of the diameter of the circle, up to a maximum font size of 150 pixels. If scaling in this way results in a font size of less than 8 pixels, the curvature should not be displayed. Circles with a radius of less than 2 pixels should not be drawn.
+The gasket should initially be shown with its top edge at the top of the window (just below the **ToolStrip**) and its left edge at the left of the window. Its size should be 500 pixels by 500 pixels. The curvature shown within each internal circle should be displayed using an italic serif font, scaled so that the width of the drawn text is 70% of the diameter of the circle, up to a maximum font size of 150 pixels. If scaling in this way results in a font size of less than 8 pixels, the curvature should not be displayed. Circles with a radius of less than 2 pixels should not be drawn.
 
 If the entire gasket will not fit within the window, either horizontally or vertically, appropriate scrollbars should appear. A horizontal scrollbar should appear at the bottom of the window when necessary, and it should allow the user to pan the gasket from a minimum position in which the left edge of the gasket is at the left edge of the window to a maximum position in which the right edge of the gasket is at the right edge of the window. A vertical scrollbar should appear on the right edge of the window when necessary, and it should allow the user to pan the gasket from a minimum position in which the top of the gasket is at the top of the window to a maximum position in which the bottom of the gasket is at the bottom of the window. Resizing the window should allow the scrollbars to appear/disappear as needed.
 
 Clicking the "Zoom In" button should cause the gasket to double in size. If possible, the point at the center of the display should remain at the center after zooming. If this is impossible due to the constraints on scrolling described in the above paragraph, the point previously at the center should be as close as possible to the center of the display after zooming. Other than the size of the drawing, the above rules for drawing the gasket should still apply; hence, more detail will be shown. The value in the textbox showing the zoom level should increase by 1. If this value is becomes 6, the "Zoom In" button should be disabled. In any case, the "Zoom Out" button should be enabled. For example, clicking "Zoom In" on the GUI shown above should result in the following:
 
-![The GUI after zooming in 1 level.](gui-after-zoom.png)
+<img src="gui-after-zoom.png" alt="The GUI after zooming in 1 level." style="zoom:67%;" />
 
 Clicking the "Zoom Out" button should cause the gasket's size to be reduced by half; hence, it should return the drawing to the same as an earlier drawing. If possible, the point at the center of the display should remain at the center after zooming out. If this is impossible, the point previously at the center should be as close as possible to the center of the display after zooming out. The value in the textbox showing the zoom level should decrease by 1. If this value becomes 0, the "Zoom Out" button should be disabled. In any case, the "Zoom In" button should be enabled.
 
@@ -147,7 +147,7 @@ The Apollonian gaskets will need to be drawn using a *pixel* coordinate system. 
 
 ![The pixel coordinate system.](coordinate-system.png)
 
-The curvatures given by the user are expressed at a different scale. Specifically, all circles have a radius no more than 1, as -1 is the smallest curvature allowed for an external circle. To keep the curvatures integers, it makes sense to do most of the calculations within this *internal* coordinate system, scaling to the pixel coordinate system by multiplying all values by an appropriate scale factor only when we are ready to draw. Thus, within the internal coordinate system, the radii of the circles will remain unchanged when the zoom level changes. 
+The curvatures given by the user are expressed at a different scale. Specifically, all circles have a radius no more than 1, as -1 is the largest curvature allowed for an external circle. To keep the curvatures integers, it makes sense to do most of the calculations within this *internal* coordinate system, scaling to the pixel coordinate system by multiplying all values by an appropriate scale factor only when we are ready to draw. Thus, within the internal coordinate system, the radii of the circles will remain unchanged when the zoom level changes. 
 
 To avoid confusion, we will organize the internal coordinate system like the pixel coordinate system, with the *x*-coordinate increasing going to the right and the *y*-coordinate increasing going downward. We set the center of the external circle to be (*r*, *r*), where *r* is its radius; hence, scaling to pixel coordinates will place this circle in the upper-left corner.
 
@@ -160,10 +160,10 @@ This algorithm needs the following parameters:
 - The curvature of the next circle to be drawn.
 - Descriptions of the three circles, *c*<sub>1</sub>, *c*<sub>2</sub>, and *c*<sub>3</sub>, to which the next circle must be tangent. We will adopt the following conventions for these three parameters:
   - If one of them is the external circle, it is *c*<sub>1</sub>.
-  - They are given in an order such that their tangent points with the next circle to be drawn are listed clockwise around that circle. For example, in the last figure of [4.3. Behavior of the GUI](#4.3. Behavior of the GUI), if the circle with curvature 35 is the next to be drawn, the external circle is *c*<sub>1</sub>, the circle with curvature 14 is *c*<sub>2</sub>, and the circle with curvature 6 is *c*<sub>3</sub>.
+  - They are given in an order such that their tangent points with the next circle to be drawn are listed clockwise around that circle. For example, in the last figure of [4.3. Behavior of the GUI](#4.3. Behavior of the GUI), suppose the circle with curvature 26 near the upper-right corner is the next to be drawn, between the external circle and the circles with curvatures 3 and 14. Then the external circle is *c*<sub>1</sub>, the circle with curvature 3 is *c*<sub>2</sub>, and the circle with curvature 14 is *c*<sub>3</sub>.
 - The object on which the gasket is to be drawn. We will not refer explicitly to this object in the description of the algorithm, but various information, such as the region that needs to be redrawn, will be obtained from this object.
 
-To ensure that the algorithm terminates, we need at least one base case. The most obvious one is if the radius corresponding to the given curvature, when scaled to pixel coordinates, is too small to draw. In this case, there is nothing to do. A second base case is that the region bounded by the three given circles doesn't intersect with the region that needs to be drawn. In this case, we can optimize performance by doing nothing as well. However, the region bounded by three circles is awkward to work with. For this reason, we will approximate this region by finding a *bounding rectangle* that includes all of it. This rectangle will have two sides parallel to the *x*-axis and two sides parallel to the *y*-axis.
+To ensure that the algorithm terminates, we need at least one base case. The most obvious one is if the radius corresponding to the given curvature, when scaled to pixel coordinates, is too small to draw. In this case, there is nothing to do. A less obvious base case is that the region bounded by the three given circles doesn't intersect with the region that needs to be drawn. In this case, we can optimize performance by doing nothing as well. However, the region bounded by three circles is awkward to work with. For this reason, we will approximate this region by finding a *bounding rectangle* that includes all of it. This rectangle will have two sides parallel to the *x*-axis and two sides parallel to the *y*-axis.
 
 The algorithm then is as follows:
 
@@ -173,7 +173,7 @@ The algorithm then is as follows:
 
 Note that steps 3.c. through 3.e. above handle the three children of the current tree node - the three regions formed by the newly-drawn circle *c* and two of the circles tangent to it. These three circles are listed to conform to conventions set above for these parameters (i.e., they are listed clockwise, and if one of them is the external circle, it is listed first).
 
-Two aspects of the above algorithm need more discussion: finding the bounding rectangle in Step 2 and determining the center of the circle in step 3.a. The next two sections will give more details for these computations.
+Two aspects of the above algorithm need more discussion: finding the bounding rectangle in Step 2 and determining the center of the circle in step 3.a. The next two sections will give the details for these computations.
 
 ### 5.3. Finding a Bounding Rectangle
 
@@ -229,9 +229,9 @@ $$
 
 As we pointed out above, we only need to look for other inflection points if the external circle bounds the region we want to draw. There are four such inflection points on this circle. We can dispense with one of them if we add the first internal circle so that it is tangent to the external circle at this point. Therefore, we will assume the following:
 
-- This circle has radius *r*.
+- The external circle has radius *r*.
 - Its center is (*r*, *r*). 
-- The first internal circle is tangent to this circle at (*r*, 0), where the *y*-coordinate reaches its minimum on the external circle.
+- The first internal circle is tangent to the external circle at (*r*, 0), where the *y*-coordinate reaches its minimum on the external circle.
 
 Given these assumptions, we can ignore the point (*r*, 0) because if it is on the border of the region, it will be a tangent point, and hence taken care of by the techniques above. Given that we know how to find the three tangent points for the region, and that the parameters to the recursive algorithm are such that the circles bounding the region are listed in clockwise order (see [5.2. Overview of the Recursive Algorithm](#5.2. Overview of the Recursive Algorithm)), we can assume that we have two tangent points, *A* and *B*, on the external circle, such that *A* precedes *B* when we follow the border of the region along the external circle in a clockwise direction; for example:
 
@@ -243,7 +243,7 @@ There are three points we need to consider:
 
 - If *A* is in the upper-right quadrant and *B* is in one of the other three quadrants, (2*r*, *r*) is an inflection point at which the *x*-value is maximized.
 - If *A* is in one of the two right quadrants and *B* is in one of the two left quadrants, (*r*, 2*r*) is an inflection point at which the *y*-value is maximized.
-- If *A* is in the upper-right quadrant or either of the two left quadrants and *B* is in the upper-left quadrant, then (0, *r*) is an inflection point at which the *x*-value is minimized.
+- If *A* is in the upper-right quadrant or either of the two lower quadrants and *B* is in the upper-left quadrant, then (0, *r*) is an inflection point at which the *x*-value is minimized.
 
 Thus, in the above figure, all three of the points (2*r*, *r*), (*r*, 2*r*), and (0, *r*) are inflection points, although as it turns out, the last of these points will have been detected when tangent points are identified. There is no harm in identifying an inflection point twice.
 
@@ -288,7 +288,7 @@ $$
 
 ### 5.5. The Algorithm for the Root of the Tree
 
-The algorithm given in [5.2. Overview of the Recursive Algorithm](#5.2. Overview of the Recursive Algorithm) handles all nodes of the the tree described in [1. Apollonian Gaskets](#1. Apollonian Gaskets), with the exception of the root node. Here, we describe the algorithm for this node. It is responsible for drawing the first three circles. We will assume that we have the curvatures (and hence the radii) of the first five circles, and that the curvature of the fourth circle is larger than the curvature of the fifth circle. 
+The algorithm given in [5.2. Overview of the Recursive Algorithm](#5.2. Overview of the Recursive Algorithm) handles all nodes of the the tree described in [1. Apollonian Gaskets](#1. Apollonian Gaskets), with the exception of the root node. Here, we describe the algorithm for this node. It is responsible for drawing the first three circles, then using the recursive algorithm to complete the drawing. We will assume that we have the curvatures (and hence the radii) of the first five circles, and that the curvature of the fourth circle is smaller than the curvature of the fifth circle. 
 
 The algorithm proceeds as follows:
 
@@ -305,12 +305,12 @@ The **Math** class contains several **static** methods that you may find useful 
 - [**Math.Abs**](https://learn.microsoft.com/en-us/dotnet/api/system.math.abs?view=net-6.0#system-math-abs(system-double)): returns a **double** giving the absolute value of the given **double**. There is also an [overload](https://learn.microsoft.com/en-us/dotnet/api/system.math.abs?view=net-6.0#system-math-abs(system-int32)) that takes an **int** and returns an **int**.
 - [**Math.Acos**](https://learn.microsoft.com/en-us/dotnet/api/system.math.acos?view=net-6.0#system-math-acos(system-double)): given a **double** *x*, -1 &le; *x* &le; 1, returns a **double** giving cos<sup>-1</sup> *x* in [radians](https://www.mathsisfun.com/geometry/radians.html) .
 - [**Math.Atan2**](https://learn.microsoft.com/en-us/dotnet/api/system.math.atan2?view=net-6.0): given two **double**s, returns the result of the [atan2](https://en.wikipedia.org/wiki/Atan2) function in radians as a **double**.
-- [**Math.Cos**](https://learn.microsoft.com/en-us/dotnet/api/system.math.cos?view=net-6.0): given an angle *&theta;*in radians (a **double**), returns cos &theta; as a **double**.
+- [**Math.Cos**](https://learn.microsoft.com/en-us/dotnet/api/system.math.cos?view=net-6.0): given an angle *&theta;* in radians (a **double**), returns cos &theta; as a **double**.
 - [**Math.Max**](https://learn.microsoft.com/en-us/dotnet/api/system.math.max?view=net-6.0#system-math-max(system-double-system-double)): given two **double**s, returns the maximum of the two as a **double**.
-- [**Math.Min**](https://learn.microsoft.com/en-us/dotnet/api/system.math.min?view=net-6.0#system-math-min(system-double-system-double)): given two **double**s, returns the minimum of the two as a **double**. There is also an [overload](https://learn.microsoft.com/en-us/dotnet/api/system.math.min?view=net-6.0#system-math-min(system-single-system-single)) that takes two **float**s and **float**.
+- [**Math.Min**](https://learn.microsoft.com/en-us/dotnet/api/system.math.min?view=net-6.0#system-math-min(system-double-system-double)): given two **double**s, returns the minimum of the two as a **double**. There is also an [overload](https://learn.microsoft.com/en-us/dotnet/api/system.math.min?view=net-6.0#system-math-min(system-single-system-single)) that takes two **float**s and returns a  **float**.
 - [**Math.Round**](https://learn.microsoft.com/en-us/dotnet/api/system.math.round?view=net-6.0#system-math-round(system-double)): given a **double**, returns the nearest integer (as a **double**) to that value.
 - [**Math.Sin**](https://learn.microsoft.com/en-us/dotnet/api/system.math.sin?view=net-6.0): given an angle &theta; in radians (a **double**), returns sin &theta; as a **double**.
-- [**Math.Sqrt**](https://learn.microsoft.com/en-us/dotnet/api/system.math.sqrt?view=net-6.0): given a nonnegative **double** *x*, returns &radic;*x* as a **double**.
+- [**Math.Sqrt**](https://learn.microsoft.com/en-us/dotnet/api/system.math.sqrt?view=net-6.0): given a nonnegative **double** *x*, returns &radic;*x* as a **double**. If *x* is negative or [**double.NaN**](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan?view=net-6.0#system-double-nan), returns **double.NaN**.
 
 ## 7. Software Architecture
 
@@ -356,13 +356,13 @@ Because it is a **static** class, all of its members must also be declared as **
 
 #### 8.2.1. A public static BothTangentCurvatures method
 
-This method needs three **int** parameters given the curvatures of three mutually-tangent circles. It should return an (**int**, **int**) giving the curvatures of the two circles tangent to all three of the given circles, rounded to the nearest **int**. Use [(2)](#eqn2) to compute these values, and see [6. The Math Class](#6. The Math Class) for various methods that might be useful in performing this computation. The (**int**, **int**) type is a *value tuple*. An instance can be constructed by listing two **int**s within parentheses, separated by a comma; for example, if `i` and `j` are **int** variables:
+This method needs three **int** parameters giving the curvatures of three mutually-tangent circles. It should return an (**int**, **int**) giving the curvatures of the two circles tangent to all three of the given circles, rounded to the nearest **int**. Use [(2)](#eqn2) to compute these values, and see [6. The Math Class](#6. The Math Class) for various methods that might be useful in performing this computation. The (**int**, **int**) type is a *value tuple*. An instance can be constructed by listing two **int**s within parentheses, separated by a comma; for example, if `i` and `j` are **int** variables:
 
 ```
 return (i, j);
 ```
 
-List the larger curvature (i.e., the one obtained by adding) first. 
+List the smaller curvature (i.e., the one obtained by subtracting) first. 
 
 Once this method has been defined, it can be called as follows, assuming `a`, `b`, and `c` are **int** variables:
 
@@ -426,7 +426,7 @@ You will need the following **private** fields:
 
 #### 8.3.2. A public property to get the current zoom level
 
-This property should get an **int**. Use the default implementation with a **private set** accessor.
+This property should get an **int**. Use the default implementation with a **get** accessor and a **private set** accessor.
 
 #### 8.3.3. A public property that sets the curvatures 
 
@@ -471,12 +471,12 @@ It should return nothing. Follow the algorithm given in [5.2. Overview of the Re
 - To determine whether the bounding rectangle intersects with the area that needs to be redrawn, you will first need to get the [**ClipBounds**](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.clipbounds?view=net-6.0#system-drawing-graphics-clipbounds) property of the given **Graphics**. This property gets a **RectangleF** describing the area that needs to be redrawn. Then determine whether this **RectangleF** intersects with the **RectangleF** giving the bounding rectangle by using the [**IntersectsWith**](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.rectanglef.intersectswith?view=net-6.0#system-drawing-rectanglef-intersectswith(system-drawing-rectanglef)) method of one of these rectangles.
 - To set the center of the circle to be drawn, use the **Utilities.SetCenter** method, passing the first two given **Circle**s as the second and third parameters, respectively of that method.
 - To draw the circle:
-  - Find the pixel coordinates (as **float**s) of the upper-left corner of the square bounding the circle to be drawn. Do this by scaling the coordinates to pixel coordinates and subtracting the scaled radius of the circle from each.
+  - Find the pixel coordinates (as **float**s) of the upper-left corner of the square bounding the circle to be drawn. Do this by scaling the coordinates of the circle's center to pixel coordinates and subtracting the scaled radius of the circle from each.
   - Find the width (or height) of this square (as a **float**) by scaling the diameter of the circle to pixel coordinates.
   - Use the [**DrawEllipse**](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.drawellipse?view=net-6.0#system-drawing-graphics-drawellipse(system-drawing-pen-system-single-system-single-system-single-system-single)) method of the given **Graphics** to draw the circle. Use the **Pen** field as the first parameter, and the four **float**s describing the bounding square as the other four.
 - After drawing the circle, you will need to determine whether the curvature can be displayed within it:
   - Determine the size of the drawn curvature (converted to a **string**) in the default font using the **static** method [**TextRenderer.MeasureText**](https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.textrenderer.measuretext?view=windowsdesktop-6.0#system-windows-forms-textrenderer-measuretext(system-drawing-idevicecontext-system-string-system-drawing-font)). Use as the parameters to this method the given **Graphics**, the **string** to be displayed, and the default **Font**. It will return a **Size** giving the size of this drawn string in pixels.
-  - Compute the font size needed to fit the curvature within the circle by multiplying the pixel diameter of the drawn circle by the fraction of the diameter that can be used for drawn text, and by default font size, then dividing this value by the width obtained from **MeasureText** above. If this value exceeds the maximum font size, use the maximum font size instead.
+  - Compute the font size needed to fit the curvature within the circle by multiplying the pixel diameter of the drawn circle by the fraction of the diameter that can be used for drawn text, and by default font size, then dividing this product by the width obtained from **MeasureText** above. If this value exceeds the maximum font size, use the maximum font size instead.
   - If the circle is internal and the font size obtained is at least the minimum font size, then the curvature can be displayed in the circle.
 - To display the curvature within the circle: 
   - You will first need to construct the appropriate **Font**. Because a **Font** contains unmanaged resources, you should define this **Font** within a **using** statement, like you would define a **StreamReader** or a **StreamWriter**. Use the following parameters to the [**Font** constructor](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.font.-ctor?view=net-6.0#system-drawing-font-ctor(system-drawing-fontfamily-system-single-system-drawing-fontstyle-system-drawing-graphicsunit)):
@@ -510,7 +510,7 @@ This method needs no parameters and should return nothing. It is responsible for
 
 - Update the **ZoomLevel** property.
 - Multiply the width/height of the drawing by the constant giving the zoom factor.
-- Set the **Size** property as you did in [8.3.3. A public property that sets the curvatures](#8.3.3. A public property that seets the curvatures).
+- Set the **Size** property as you did in [8.3.3. A public property that sets the curvatures](#8.3.3. A public property that sets the curvatures).
 - Call the **Invalidate** method.
 
 #### 8.3.7. A public ZoomOut method
@@ -527,7 +527,7 @@ You will need to add one **public** property to this class:
 
 Before beginning on this class, make sure you can open it in the Design window, as errors in the **Gasket** or **Circle** class might prevent it from opening. If it shows an error, first run the unit tests for the **Circle** class (see [9. Testing and Performance](#9. Testing and Performance)), and debug any tests that fail. Once the **Circle** class passes all of its tests, run the program using the debugger, as any exceptions preventing the Design window from opening will also be thrown during the initialization of the GUI. Debug any exceptions that are thrown. Note that the **OnPaint** method should only call **base.OnPaint**, as the array of curvatures should have the wrong number of elements. When the program successfully starts, it should be possible to open the Design window (you'll first need to close its tab and re-open it).
 
-You'll need to add four **private** fields, three event handlers, and one other **private** method to this class. 
+You'll need to add four **private** fields, three event handlers, and one other **private** method to this class. Each of these is described in what follows.
 
 #### 8.5.1. private fields
 
@@ -552,7 +552,7 @@ This method should implement the functionality for the "New" button as described
 
 #### 8.5.4. An event handler for a Click event on the "Zoom In" button
 
-This method should implement the functionality of the "Zoom In" button as described in [4.3. Behavior of the GUI](#4.3. Behavior of the GUI). Before doing anything else, get the **AutoScrollPosition** property from the **FlowLayoutPanel** containing the **Gasket**. This will give you a [**Point**](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.point?view=net-6.0) giving the pixel location (within the **Gasket**) that currently appears at the upper-left corner of the **FlowLayoutPanel**. A **Point** contains two **int** properties, [**X**](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.point?view=net-6.0) and [**Y**](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.point.y?view=net-6.0#system-drawing-point-y), that give the *x*- and *y*-coordinates, respectively, of this pixel location; however, these values will be negative in the **Point** returned by the **AutoScrollPosition** property.
+This method should implement the functionality of the "Zoom In" button as described in [4.3. Behavior of the GUI](#4.3. Behavior of the GUI). Before doing anything else, get the **AutoScrollPosition** property from the **FlowLayoutPanel** containing the **Gasket**. This will give you a [**Point**](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.point?view=net-6.0) giving the pixel location (within the **Gasket**) that currently appears at the upper-left corner of the **FlowLayoutPanel**. A **Point** contains two **int** properties, [**X**](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.point.x?view=net-6.0#system-drawing-point-x) and [**Y**](https://learn.microsoft.com/en-us/dotnet/api/system.drawing.point.y?view=net-6.0#system-drawing-point-y), that give the *x*- and *y*-coordinates, respectively, of this pixel location; however, these values will be negative in the **Point** returned by the **AutoScrollPosition** property. Note that if this **Point** is outside the range of the scroll position, the property will be set to a value as close as possible to the given value; hence, the center will be preserved as nearly as possible.
 
 Once you have this **Point**, which we will refer to as (*x*, *y*) in what follows, you can have the **Gasket** zoom in, and you can enable/disable the buttons using the appropriate method above. Then you will need to scroll the **Gasket** so that the point that had been displayed at the center of the **FlowLayoutPanel** is still at the center. To do this, you will need to get the size of the display area using the **FlowLayoutPanel**'s [**ClientSize**](https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.control.clientsize?view=windowsdesktop-6.0#system-windows-forms-control-clientsize) property, which gets a **Size**. Let *w* be the width and *h* be the height of this **Size**. The point that had been at the center can be obtained by adding *w*/2 to -*x* and adding *h*/2 to -*y*. Zooming in causes both of these coordinates to double; hence the new center is at (-2*x* + *w*, -2*y* + *h*). The new upper-left corner is therefore (-2*x* + *w*/2, -2*y* + *h*/2). You can set the **AutoScrollPosition** property to this point.
 
@@ -571,9 +571,15 @@ $$
 
 ## 9. Testing and Performance
 
-Unit tests have been provided for the **Circle** and **Utilities** classes. You should work through these tests first. Once the tests have passed, you can be reasonably confident that these classes are implemented correctly.
+Unit tests have been provided for the **Circle** and **Utilities** classes. You should work through these tests first. Note that because of issues with floating-point arithmetic, no **double**s are compared for equality when doing these tests. Instead, a method **Common.IsApproximately** is included to compare doubles within a fixed tolerance *t*. For expected values *x* > *t*, the tolerance is a proportion of the expected value; i.e., if *v* is a given value, the condition checked is *x*(1 - *t*) < *v* < *x*(1 + *t*).  For 0 &le; *x* &le; *t*, the tolerance is absolute; i.e., the condition checked is *x* - *t* < *v* < *x* + *t*. 
 
-You will need to test the remaining classes interactively. Use the posted [demo video]() as a guide for this testing. Specifically, run through the same series of actions as done in the video, and verify that your program behaves in the same way.
+The unit tests **TestSetCenter**, **TestGetBounds1**, **TestGetBounds2**, and **TestGetBounds3** are based on the following gasket:
+
+<img src="test-gasket.png" alt="The gasket used for testing SetCenter and GetBounds." style="zoom:67%;" />
+
+The unit tests **TestGetBounds4** and **TestGetBounds5** are based on the first gasket shown in [1. Apollonian Gaskets](#1. Apollonian Gaskets). The unit test **TestGetBounds6** is based on this same gasket, but rotated a quarter-turn counter-clockwise.
+
+Once the unit tests have passed, you can be reasonably confident that these classes are implemented correctly. You will then need to test the remaining classes interactively. Use the posted [demo video](https://youtu.be/cpwvYbNSLVc?si=5ejxQef-tmJrjxEn) as a guide for this testing. Specifically, run through the same series of actions as done in the video, and verify that your program behaves in the same way.
 
 The gasket should scroll smoothly at all levels except level 6.
 
