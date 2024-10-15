@@ -269,7 +269,7 @@ where [atan2](https://en.wikipedia.org/wiki/Atan2) is the 2-argument arctangent.
 
 We can now compute *C* using basic trigonometry: <a name="eqn9"></a>
 $$
-C = ((r_A + r_C)\cos(\varphi + \theta), (r_A + r_C)\sin(\varphi + \theta))\tag{9}
+C = ((r_A + r_C)\cos(\varphi + \theta) + x_A, (r_A + r_C)\sin(\varphi + \theta) + y_A)\tag{9}
 $$
 Now let's suppose one of the two tangent circles is the external circle:
 
@@ -283,7 +283,7 @@ $$
 $$
 *&phi;* can be computed as in [(8)](#eqn8), but we now need to subtract *&theta;* from *&phi;*; hence, *C* is given by: <a name="eqn11"></a>
 $$
-C = ((r_A - r_C)\cos(\varphi - \theta), (r_A - r_C)\sin(\varphi - \theta)).\tag{11}
+C = ((r_A - r_C)\cos(\varphi - \theta) + x_A, (r_A - r_C)\sin(\varphi - \theta) + y_A).\tag{11}
 $$
 
 ### 5.5. The Algorithm for the Root of the Tree
